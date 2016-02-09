@@ -1,0 +1,9 @@
+Package: N00-display-controller
+Version: 0.1.0
+Architecture: all
+Maintainer: Xavier Raemy
+Depends: python-daemon, python-gtk2
+Section: python
+Priority: optional
+Installed-Size: 29700
+Description: Controller for the N00 LED display.
