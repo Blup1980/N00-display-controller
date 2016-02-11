@@ -75,7 +75,7 @@ class ChrDisplay:
         :param b:
         :return:
         """
-        if r > 127 or g > 127 or b > 127 or r < 0 or g < 0 or b < 0:
+        if r > 255 or g > 255 or b > 255 or r < 0 or g < 0 or b < 0:
             raise ValueError
 
         for x in self.pixel_list:
