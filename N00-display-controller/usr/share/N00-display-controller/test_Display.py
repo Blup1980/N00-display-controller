@@ -30,21 +30,21 @@ class TestDigitDisplay(TestCase):
             self.assertEqual(x.g, 0)
             self.assertEqual(x.b, 0)
 
-        dut.set_color(0, 2, 127)
+        dut.set_color(0, 2, 255)
         l = dut.get_pixel_list()
         for x in l:
             if x.enabled:
                 self.assertEqual(x.r, 0)
                 self.assertEqual(x.g, 2)
-                self.assertEqual(x.b, 127)
+                self.assertEqual(x.b, 255)
             else:
                 self.assertEqual(x.r, 0)
                 self.assertEqual(x.g, 0)
                 self.assertEqual(x.b, 0)
 
-        self.assertRaises(ValueError, dut.set_color, 0, 0, 128)
-        self.assertRaises(ValueError, dut.set_color, 0, 128, 0)
-        self.assertRaises(ValueError, dut.set_color, 128, 0, 0)
+        self.assertRaises(ValueError, dut.set_color, 0, 0, 256)
+        self.assertRaises(ValueError, dut.set_color, 0, 256, 0)
+        self.assertRaises(ValueError, dut.set_color, 256, 0, 0)
 
         self.assertRaises(ValueError, dut.set_color, 0, 0, -1)
         self.assertRaises(ValueError, dut.set_color, 0, -1, 0)
