@@ -28,6 +28,7 @@ class Strand:
         self.spi = open(self.dev, "wb")
         self.leds = leds
         self.gamma = bytearray(256)
+        self.latchBytes = bytearray(int((leds + 31) / 32))
         self.buffer = []
         for x in range(self.leds):
             self.buffer.append([0, 0, 0])
@@ -59,5 +60,5 @@ class Strand:
         for x in range(self.leds):
             self.spi.write(bytearray(self.buffer[x]))
             self.spi.flush()
-        self.spi.write(bytearray(b'\x00'))
+        self.spi.write(self.latchBytes)
         self.spi.flush()
