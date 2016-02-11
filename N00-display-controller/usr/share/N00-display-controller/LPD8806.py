@@ -40,41 +40,19 @@ class Strand:
                 pow(float(i) / 255.0, 2.5) * 127.0 + 0.5
             )
 
-    def fill(self, r, g, b, start=0, end=0):
+    def show(self, pixel_list):
         """
-        Fill the strand (or a subset) with a single color
+        Fill the strand with the pixel values
         Variables:
-            :param r -- Red value
-            :param g -- Green value
-            :param b -- Blue value
-            :param start -- index of the first LED to consider
-            :param end -- index of the last LED to consider
+            :param pixel_list -- List of Pixel class to display
         """
-        if start < 0:
-            raise NameError("Start invalid:" + str(start))
-        if end == 0:
-            end = self.leds
-        if end > self.leds:
-            raise NameError("End invalid: " + str(end))
-        for led in range(start, end):
-            self.buffer[led][0] = self.gamma[g]
-            self.buffer[led][1] = self.gamma[r]
-            self.buffer[led][2] = self.gamma[b]
+        for i in range(len(pixel_list)):
+            self.buffer[i][0] = self.gamma[pixel_list[i].g]
+            self.buffer[i][1] = self.gamma[pixel_list[i].r]
+            self.buffer[i][2] = self.gamma[pixel_list[i].b]
+        self._update()
 
-    def set(self, pixel, r, g, b):
-        """
-        Set a single LED a specific color
-        Variables:
-            :param pixel -- index of the pixel
-            :param r -- Red value
-            :param g -- Green value
-            :param b -- Blue value
-        """
-        self.buffer[pixel][0] = self.gamma[g]
-        self.buffer[pixel][1] = self.gamma[r]
-        self.buffer[pixel][2] = self.gamma[b]
-
-    def update(self):
+    def _update(self):
         """
         Flush the buffer to the strand
         """
