@@ -2,7 +2,7 @@ from unittest import TestCase
 import N00_display as DUTModule
 
 
-class TestDigitDisplay(TestCase):
+class TestAlphanumDisplay(TestCase):
 
     def test_pixelLength(self):
         dut = DUTModule.LetterDisplay('N')
