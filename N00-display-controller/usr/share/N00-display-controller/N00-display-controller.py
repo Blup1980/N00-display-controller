@@ -22,7 +22,7 @@ from sequencer import Sequencer
 
 
 dis = Display()
-seq = Sequencer('file://.planning.csv',1)
+seq = Sequencer('http://***REMOVED***/planning.csv', 1)
 
 while True:
-    dis.show(msg)
+    dis.show(seq.get_msg())
