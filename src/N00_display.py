@@ -24,7 +24,7 @@ class Display:
         """
         :return:
         """
-        self.strand = Strand(leds=38+41+41)
+        self.strand = Strand(leds=38+41+41, dev='/dev/null')
 
     def show(self, string):
         """
@@ -34,7 +34,7 @@ class Display:
         parsed = self._parse(string)
         l = LetterDisplay(parsed[0])
         d0 = DigitDisplay(parsed[1])
-        d1 = DigitDisplay(parsed[3])
+        d1 = DigitDisplay(parsed[2])
 
         pixel_list = []
         pixel_list.extend(l.get_pixel_list())
@@ -50,7 +50,7 @@ class Display:
         :param input_str:
         :return tuple:
         """
-        if ~isinstance(input_str, str):
+        if not isinstance(input_str, str):
             raise TypeError
 
         if len(input_str) != 3:
