@@ -2,7 +2,7 @@ Package: N00-display-controller
 Version: 0.1.0
 Architecture: all
 Maintainer: Xavier Raemy
-Depends: python-daemon, python-gtk2
+Depends: python3
 Section: python
 Priority: optional
 Installed-Size: 29700
