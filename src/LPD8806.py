@@ -21,8 +21,9 @@ class Strand:
     def __init__(self, leds=160, dev="/dev/spidev0.0"):
         """
         Variables:
-            :type leds: object
+            :type leds: Number
             :param leds -- strand size
+            :type dev: Sting
             :param dev -- spi device
         """
         self.dev = dev
