@@ -16,6 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from datetime import datetime
 import requests
+import logging
 
 
 class Sequencer:
@@ -45,6 +46,7 @@ class Sequencer:
 
         now = datetime.today()
         if self.last_check_time + self.interval <= now.timestamp():
+            logging.debug('Sequence need refresh from server')
             self._refresh()
 
         msg = ''
@@ -57,6 +59,7 @@ class Sequencer:
         # TODO manage the exception of no connexion or issues with the parsing
         r = requests.get(self.URL)
         if not r.ok:
+            logging.warning('Cannot access the server. server returned error: %s', r.status_code)
             return
         lines = r.text.split('\n')
         parsed = [l.split(';') for l in lines]
@@ -69,5 +72,6 @@ class Sequencer:
                 msg = f[2]
                 seq.append({'start': time_start, 'stop': time_stop, 'msg': msg})
             except ValueError:
+                logging.warning('Problem parsing the result from the server')
                 pass
         self.sequence = seq
