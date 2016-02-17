@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # N00-display-controller.
 # Copyright (C) 2016  Blup1980
 #
@@ -25,19 +26,20 @@ import threading
 class App:
 
     def __init__(self):
-        #daemon_context = daemon.DaemonContext()
-        #daemon_context.open()
+        # daemon_context = daemon.DaemonContext()
+        # daemon_context.open()
         self.dis = Display()
         self.seq = Sequencer('http://***REMOVED***/planning.csv', 1)
 
-        #logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
-        #                    filename='/var/log/N00-display-controller.log', level=logging.DEBUG)
-        #logging.info('Script started')
+        logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
+                            filename='/var/log/N00-display-controller.log', level=logging.DEBUG)
+        logging.info('Script started')
 
     def run(self):
         t = threading.Timer(7.0, self.run)
         t.daemon = True
         t.start()
+        logging.debug('Calling Display.show')
         self.dis.show(self.seq.get_msg())
         print('test')
 
@@ -47,5 +49,3 @@ App.run()
 
 while True:
     pass
-
-
