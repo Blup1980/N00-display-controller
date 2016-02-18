@@ -21,6 +21,7 @@ from N00_display import Display
 from sequencer import Sequencer
 import logging
 import threading
+import configparser
 
 
 class App:
@@ -28,12 +29,20 @@ class App:
     def __init__(self):
         # daemon_context = daemon.DaemonContext()
         # daemon_context.open()
-        self.dis = Display()
-        self.seq = Sequencer('http://***REMOVED***/planning.csv', 1)
-
         logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                             filename='/var/log/N00-display-controller.log', level=logging.DEBUG)
         logging.info('Script started')
+        self.config = configparser.ConfigParser()
+        url = ''
+        try:
+            self.config.read('/etc/N00-display.conf')
+            url = self.config['SERVER']['Url']
+
+        except configparser.Error:
+            logging.warning('Cannot use value in /etc/N00-display.conf')
+
+        self.dis = Display()
+        self.seq = Sequencer(url, 1)
 
     def run(self):
         t = threading.Timer(7.0, self.run)
