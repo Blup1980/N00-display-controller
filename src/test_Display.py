@@ -1,7 +1,6 @@
 from unittest import TestCase
 import unittest.mock as mock
 import N00_display
-import LPD8806
 
 
 class TestDisplayClass(TestCase):
@@ -23,8 +22,24 @@ class TestDisplayClass(TestCase):
     def test_show(self, mock_strand):
         dut = N00_display.Display()
         dut.show('N88')
-        #TODO Find the right test here
-        mock_strand.return_value.show.assert_called_with('test')
+        expected = [N00_display.Pixel(1)]*(38+41+41)
+        mock_strand.return_value.show.assert_called_with(expected)
+
+        dut.show('   ')
+        expected = [N00_display.Pixel(0)]*(38+41+41)
+        mock_strand.return_value.show.assert_called_with(expected)
+
+        dut.show(' 88')
+        expected = [N00_display.Pixel(0)]*38 + [N00_display.Pixel(1)]*(41+41)
+        mock_strand.return_value.show.assert_called_with(expected)
+
+        dut.show('N 8')
+        expected = [N00_display.Pixel(1)]*38 + [N00_display.Pixel(0)]*41 + [N00_display.Pixel(1)]*41
+        mock_strand.return_value.show.assert_called_with(expected)
+
+        dut.show('N8 ')
+        expected = [N00_display.Pixel(1)]*38 + [N00_display.Pixel(1)]*41 + [N00_display.Pixel(0)]*41
+        mock_strand.return_value.show.assert_called_with(expected)
 
 
 class TestAlphanumDisplay(TestCase):
