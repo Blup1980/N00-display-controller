@@ -1,29 +1,54 @@
 from unittest import TestCase
-import N00_display as DUTModule
+import unittest.mock as mock
+import N00_display
+import LPD8806
+
+
+class TestDisplayClass(TestCase):
+    @mock.patch('N00_display.Strand')
+    def test_init(self, mock_strand):
+        N00_display.Display()
+        mock_strand.assert_called_with(leds=38+41+41, dev='/dev/spidev0.0')
+
+    def test_parse(self):
+        result = N00_display.Display._parse('N12')
+        self.assertEqual(result[0], 'N')
+        self.assertEqual(result[1], '1')
+        self.assertEqual(result[2], '2')
+
+        self.assertRaises(ValueError, N00_display.Display._parse, 'N111')
+        self.assertRaises(TypeError, N00_display.Display._parse, 10)
+
+    @mock.patch('N00_display.Strand')
+    def test_show(self, mock_strand):
+        dut = N00_display.Display()
+        dut.show('N88')
+        #TODO Find the right test here
+        mock_strand.return_value.show.assert_called_with('test')
 
 
 class TestAlphanumDisplay(TestCase):
 
     def test_pixelLength(self):
-        dut = DUTModule.LetterDisplay('N')
+        dut = N00_display.LetterDisplay('N')
         l = dut.get_pixel_list()
         self.assertEqual(len(l), 13+13+12)
 
-        dut = DUTModule.LetterDisplay(' ')
+        dut = N00_display.LetterDisplay(' ')
         l = dut.get_pixel_list()
         self.assertEqual(len(l), 13+13+12)
 
         for i in range(0, 9):
-            dut = DUTModule.DigitDisplay(str(i))
+            dut = N00_display.DigitDisplay(str(i))
             l = dut.get_pixel_list()
             self.assertEqual(len(l), 41, "for the digit: " + str(i))
 
-        dut = DUTModule.DigitDisplay(' ')
+        dut = N00_display.DigitDisplay(' ')
         l = dut.get_pixel_list()
         self.assertEqual(len(l), 41, "for no digit:")
 
     def test_pixelColor(self):
-        dut = DUTModule.DigitDisplay('3')
+        dut = N00_display.DigitDisplay('3')
         l = dut.get_pixel_list()
         for x in l:
             self.assertEqual(x.r, 0)

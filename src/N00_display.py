@@ -25,7 +25,7 @@ class Display:
         """
         :return:
         """
-        self.strand = Strand(leds=38+41+41, dev='/dev/null')
+        self.strand = Strand(leds=38+41+41, dev='/dev/spidev0.0')
 
     def show(self, string):
         """
