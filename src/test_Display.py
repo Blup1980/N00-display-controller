@@ -15,12 +15,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-from unittest import TestCase
+import unittest
 import unittest.mock as mock
 import N00_display
 
 
-class TestDisplayClass(TestCase):
+class TestDisplayClass(unittest.TestCase):
     @mock.patch('N00_display.Strand')
     def test_init(self, mock_strand):
         N00_display.Display()
@@ -59,7 +59,7 @@ class TestDisplayClass(TestCase):
         mock_strand.return_value.show.assert_called_with(expected)
 
 
-class TestAlphanumDisplay(TestCase):
+class TestAlphanumDisplay(unittest.TestCase):
 
     def test_pixelLength(self):
         dut = N00_display.LetterDisplay('N')
@@ -106,3 +106,6 @@ class TestAlphanumDisplay(TestCase):
         self.assertRaises(ValueError, dut.set_color, 0, 0, -1)
         self.assertRaises(ValueError, dut.set_color, 0, -1, 0)
         self.assertRaises(ValueError, dut.set_color, -1, 0, 0)
+
+if __name__ == '__main__':
+    unittest.main()
