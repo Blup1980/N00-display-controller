@@ -49,6 +49,7 @@ class Strand:
         Variables:
             :param pixel_list -- List of Pixel class to display
         """
+        assert(len(pixel_list) <= self.leds)
         for i in range(len(pixel_list)):
             self.buffer[i][0] = self.gamma[pixel_list[i].g]
             self.buffer[i][1] = self.gamma[pixel_list[i].r]

@@ -70,7 +70,7 @@ class TestAlphanumDisplay(unittest.TestCase):
         l = dut.get_pixel_list()
         self.assertEqual(len(l), 13+13+12)
 
-        for i in range(0, 9):
+        for i in range(0, 9+1):
             dut = N00_display.DigitDisplay(str(i))
             l = dut.get_pixel_list()
             self.assertEqual(len(l), 41, "for the digit: " + str(i))

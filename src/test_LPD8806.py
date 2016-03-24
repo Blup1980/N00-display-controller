@@ -19,6 +19,7 @@ import unittest
 import unittest.mock as mock
 import builtins
 import LPD8806
+from N00_display import Pixel
 
 
 class TestStrand(unittest.TestCase):
@@ -30,6 +31,21 @@ class TestStrand(unittest.TestCase):
             self.assertEqual(dut.dev, '/dev/spidev0.0')
             self.assertEqual(dut.leds, 160)
             self.assertEqual(dut.buffer[-1], bytearray([0, 0, 0]))
+
+    def test_show(self):
+        m = mock.mock_open()
+        with mock.patch.object(builtins, 'open', m):
+            dut = LPD8806.Strand()
+            m.assert_called_once_with('/dev/spidev0.0', "wb")
+            p = Pixel(True)
+            p.g = 1
+            p.r = 30
+            p.b = 50
+            dut.show([p])
+            calls = [mock.call(bytearray(b'\x80\x81\x82'))] + [mock.call(bytearray(b'\x00\x00\x00'))] * 159 \
+                + [mock.call(bytearray(b'\x00\x00\x00\x00\x00'))]
+            m().write.assert_has_calls(calls)
+
 
 if __name__ == '__main__':
     unittest.main()
