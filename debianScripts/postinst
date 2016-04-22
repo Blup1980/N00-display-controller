@@ -1,6 +1,7 @@
 #!/bin/sh
 update-rc.d N00-display-controller defaults
 python3 -m pip install python-daemon
+python3 -m pip install icalendar
 
 grep -q -F 'i2c-dev' /etc/modules || echo 'i2c-dev' >> /etc/modules
 sed -i 's/spi=off/spi=on/' /boot/config.txt
