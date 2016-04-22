@@ -46,6 +46,5 @@ class TestStrand(unittest.TestCase):
                 + [mock.call(bytearray(b'\x00\x00\x00\x00\x00'))]
             m().write.assert_has_calls(calls)
 
-
 if __name__ == '__main__':
     unittest.main()

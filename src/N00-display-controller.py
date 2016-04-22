@@ -33,21 +33,18 @@ class App:
                             filename='/var/log/N00-display-controller.log', level=logging.DEBUG)
         logging.info('Script started')
         self.config = configparser.ConfigParser()
-        url = ''
-        server_refresh_interval_min = 15
+        path = ''
         self.display_refresh_interval_sec = 15
         try:
             self.config.read('/etc/N00-display.conf')
-            url = self.config['SERVER']['Url']
-            server_refresh_interval_min = self.config['SERVER']['Interval']
+            path = self.config['FILE']['location']
 
         except configparser.Error:
             logging.warning('Cannot use value in /etc/N00-display.conf')
 
         logging.info('Screen will be refreshed every ' + str(self.display_refresh_interval_sec) + ' sec')
-        logging.info('Server content will be refreshed every ' + str(server_refresh_interval_min) + ' min')
         self.dis = Display()
-        self.seq = Sequencer(url, server_refresh_interval_min)
+        self.seq = Sequencer(path)
 
     def run(self):
         t = threading.Timer(self.display_refresh_interval_sec, self.run)
@@ -55,7 +52,6 @@ class App:
         t.start()
         logging.debug('Calling Display.show')
         self.dis.show(self.seq.get_msg())
-        print('test')
 
 App = App()
 
