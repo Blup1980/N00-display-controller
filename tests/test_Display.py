@@ -17,6 +17,8 @@
 
 import unittest
 import unittest.mock as mock
+import sys
+sys.path.insert(0, '../src')
 import N00_display
 
 

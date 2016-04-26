@@ -18,6 +18,8 @@
 import unittest
 import unittest.mock as mock
 import builtins
+import sys
+sys.path.insert(0, '../src')
 import sequencer
 import tempfile
 import os
