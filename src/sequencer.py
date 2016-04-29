@@ -17,7 +17,7 @@
 
 from datetime import datetime
 import icalendar
-
+import dateutil.rrule
 
 class Sequencer:
 
@@ -45,8 +45,20 @@ class Sequencer:
         except:
             raise OSError
         else:
+            now = datetime.now()
             self.cal = icalendar.Calendar.from_ical(data)
             for e in self.cal.walk('VEVENT'):
-                if e.decoded('DTSTART') <= datetime.now() < e.decoded('DTEND'):
+                start = e.get('DTSTART').dt
+                exdate = e.get('EXDATE')
+                rrset = dateutil.rrule.rruleset()
+                rule = e.get('RRULE')
+                rrule = dateutil.rrule.rrulestr(rule.to_ical().decode())
+                rrset.rrule(rrule)
+                # for edate in exdate:  # exclude all recurrent event that has to be excluded
+                #     rrset.exdate(edate)
+
+                last_entry = rrset.before(now)
+
+                if last_entry <= datetime.now() < e.decoded('DTEND'):
                     msg = e.decoded('SUMMARY')
         return msg
